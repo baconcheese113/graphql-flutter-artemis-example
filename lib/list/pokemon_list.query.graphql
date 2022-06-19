@@ -1,5 +1,5 @@
 query PokemonList {
-    pokemons(limit: 50) {
+    pokemons(limit: 250) {
         count
         results {
             id

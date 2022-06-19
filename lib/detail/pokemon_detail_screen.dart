@@ -23,7 +23,6 @@ class PokemonDetailScreen extends StatelessWidget {
             options: QueryOptions(
               document: POKEMON_DETAIL_SCREEN_QUERY_DOCUMENT,
               variables: PokemonDetailScreenArguments(name: args.name).toJson(),
-              fetchPolicy: FetchPolicy.noCache,
             ),
             builder: (result, {fetchMore, refetch}) {
               if (result.isLoading) return const CircularProgressIndicator();

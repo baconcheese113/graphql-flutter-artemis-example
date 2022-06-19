@@ -10,11 +10,15 @@ class PokemonListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void handleTap() {
-      Navigator.pushNamed(
-        context,
-        PokemonDetailScreen.routeName,
-        arguments: PokemonDetailScreenArgs(itemFrag.name!),
-      );
+      if (itemFrag.name == null) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Unable to load this Pokemon")));
+      } else {
+        Navigator.pushNamed(
+          context,
+          PokemonDetailScreen.routeName,
+          arguments: PokemonDetailScreenArgs(itemFrag.name!),
+        );
+      }
     }
 
     return Card(

@@ -14,8 +14,6 @@ This project aims to replicate a typical client structure using npm packages Apo
 
 - As of now, Artemis doesn't support parsing out graphql queries from `.dart` files, so each query needs to be separated into it's own `.graphql` file. This is suboptimal because it adds a level of separation between the code and the query definition, and can make refactoring more difficult.
 
-- Use of fragments isn't supported with the cache, the fetch policy `FetchPolicy.noCache` must be used or the queries won't include the spread fragments
-
 ---
 
 ## Schema Generation (introspection)
@@ -47,6 +45,7 @@ query PokemonList {
     pokemons(limit: 50) {
         count
         results {
+            # id is required to use this field with cache
             id
             ...pokemonListCard_item
         }
@@ -60,10 +59,11 @@ return Query(
         document: POKEMON_LIST_QUERY_DOCUMENT,
         // operationName is optional
         operationName: POKEMON_LIST_QUERY_DOCUMENT_OPERATION_NAME,
-        // see Reasons Not To Use Artemis about cache limitation
-        fetchPolicy: FetchPolicy.noCache,
     ),
     builder: (QueryResult result, {fetchMore, refetch}) {
+        if (result.isLoading) return const CircularProgressIndicator();
+        if (result.hasException) return Center(child: Text(result.exception!.toString()));
+
         final data = PokemonList$Query.fromJson(result.data!);
 
         final cardList = data.pokemons!.results!.map((pokemon) {
@@ -84,6 +84,9 @@ return Query(
 [pokemon_list_card.fragment.graphql](lib/list/pokemon_list_card.fragment.graphql)
 ```graphql
 fragment pokemonListCard_item on PokemonItem {
+    # __typename and id are required to use fragment with cache
+    __typename
+    id
     url
     name
     image
