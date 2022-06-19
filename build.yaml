@@ -13,3 +13,9 @@ targets:
               queries_glob: lib/**.query.graphql
               output: lib/__generated__/api.graphql.dart
           fragments_glob: lib/**.fragment.graphql
+          # These just help readability in the generated files since we're using flutter-lint
+          ignore_for_file:
+            - prefer_const_declarations
+            - prefer_const_constructors
+            - prefer_const_literals_to_create_immutables
+            - non_constant_identifier_names
