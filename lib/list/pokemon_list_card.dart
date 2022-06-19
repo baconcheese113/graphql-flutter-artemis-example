@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../__generated__/all_queries.graphql.dart';
+import '../__generated__/api.graphql.dart';
 
 class PokemonListCard extends StatelessWidget {
   final PokemonListCardItemMixin itemFrag;

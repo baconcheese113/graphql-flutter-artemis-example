@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_graphql_artemis_example/list/pokemon_list_card.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-import '../__generated__/all_queries.graphql.dart';
+import '../__generated__/api.graphql.dart';
 
 class PokemonList extends StatelessWidget {
   const PokemonList({Key? key}) : super(key: key);
