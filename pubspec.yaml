@@ -1,0 +1,22 @@
+name: flutter_graphql_artemis_example
+description: Simple Flutter example project using graphql-flutter and
+  artemis with a focus on folder/file structure.
+
+publish_to: 'none'
+
+environment:
+  sdk: ">=2.17.3 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  graphql_flutter: ^5.1.0
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  build_runner: ^2.1.11 # Used with Artemis for generating Dart type files
+  json_serializable: ^6.2.0 # Used with Artemis for parsing new types
+  artemis: ^7.9.0-beta # Artemis is only used for the generation, so it isn't needed run-time
+
+flutter:
+  uses-material-design: true

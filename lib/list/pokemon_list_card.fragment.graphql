@@ -1,0 +1,6 @@
+fragment pokemonListCard_item on PokemonItem {
+    url
+    name
+    image
+    artwork
+}
