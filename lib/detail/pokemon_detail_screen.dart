@@ -15,20 +15,22 @@ class PokemonDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as PokemonDetailScreenArgs;
-
+    final query = PokemonDetailScreenQuery(
+      variables: PokemonDetailScreenArguments(name: args.name),
+    );
     return Scaffold(
       appBar: AppBar(title: Text(args.name)),
       body: Center(
         child: Query(
             options: QueryOptions(
-              document: POKEMON_DETAIL_SCREEN_QUERY_DOCUMENT,
-              variables: PokemonDetailScreenArguments(name: args.name).toJson(),
+              document: query.document,
+              variables: query.variables.toJson(),
             ),
             builder: (result, {fetchMore, refetch}) {
               if (result.isLoading) return const CircularProgressIndicator();
               if (result.hasException) return Text(result.exception.toString());
 
-              final data = PokemonDetailScreen$Query.fromJson(result.data!);
+              final data = query.parse(result.data!);
               final pokemon = data.pokemon;
               if (pokemon == null) Navigator.pop(context);
 

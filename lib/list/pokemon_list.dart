@@ -9,18 +9,19 @@ class PokemonList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final query = PokemonListQuery();
     return Query(
         options: QueryOptions(
-          document: POKEMON_LIST_QUERY_DOCUMENT,
+          document: query.document,
           // operationName is optional
-          operationName: POKEMON_LIST_QUERY_DOCUMENT_OPERATION_NAME,
+          operationName: query.operationName,
         ),
-        builder: (QueryResult result, {fetchMore, refetch}) {
+        builder: (result, {fetchMore, refetch}) {
           if (result.isLoading) return const CircularProgressIndicator();
           if (result.hasException) return Center(child: Text(result.exception!.toString()));
 
           print("result is $result");
-          final data = PokemonList$Query.fromJson(result.data!);
+          final data = query.parse(result.data!);
 
           final cardList = data.pokemons!.results!.map((pokemon) {
             print("Pokemon name: ${pokemon!.name}");

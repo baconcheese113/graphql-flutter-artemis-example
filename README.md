@@ -112,6 +112,59 @@ class PokemonListCard extends StatelessWidget {
 ```
 
 ---
+## Using Artemis Helper Classes
+
+If you pass `true` to generate_helpers in [build.yaml](./build.yaml) Artemis will generate a class for each query/mutation similar to the following
+```dart
+// ***** This code is generated in api.graphql.dart ****** 
+class PokemonDetailScreenQuery extends GraphQLQuery<PokemonDetailScreen$Query,
+    PokemonDetailScreenArguments> {
+  PokemonDetailScreenQuery({required this.variables});
+
+  @override
+  final DocumentNode document = POKEMON_DETAIL_SCREEN_QUERY_DOCUMENT;
+
+  @override
+  final String operationName =
+      POKEMON_DETAIL_SCREEN_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final PokemonDetailScreenArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  PokemonDetailScreen$Query parse(Map<String, dynamic> json) =>
+      PokemonDetailScreen$Query.fromJson(json);
+}
+```
+You can then use the helper class to configure the query and parse the result
+```dart
+// We can set query as a variable here just to decrease bloat
+final query = PokemonDetailScreenQuery(
+  variables: PokemonDetailScreenArguments(name: args.name),
+);
+return Query(
+  options: QueryOptions(
+    document: query.document,
+    variables: query.variables.toJson(),
+  ),
+  builder: (result, {fetchMore, refetch}) {
+    if (result.isLoading) return const CircularProgressIndicator();
+    if (result.hasException) return Text(result.exception.toString());
+
+    final data = query.parse(result.data!);
+    final pokemon = data.pokemon!;
+
+    return Column(
+      children: [
+        Image.network(data.pokemon.sprites!.backDefault!),
+        Center(child: Text(args.name, style: const TextStyle(fontSize: 24)))
+      ],
+    );
+  }),
+);
+```
 
 ## Other Tips
 
