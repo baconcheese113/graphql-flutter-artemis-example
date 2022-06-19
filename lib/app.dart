@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_graphql_artemis_example/detail/pokemon_detail_screen.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 import 'list/pokemon_list_screen.dart';
@@ -17,9 +18,12 @@ class App extends StatelessWidget {
         title: "Pokemon Demo",
         onGenerateRoute: (settings) {
           switch (settings.name) {
+            case '/pokemon':
+              return MaterialPageRoute(settings: settings, builder: (_) => const PokemonDetailScreen());
+              break;
             case '/':
             default:
-              return MaterialPageRoute(builder: (_) => PokemonListScreen());
+              return MaterialPageRoute(builder: (_) => const PokemonListScreen());
           }
         },
       ),
