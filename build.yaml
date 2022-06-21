@@ -6,11 +6,13 @@ targets:
     builders:
       artemis:
         options:
+          # Generates the wrapper dart classes
           generate_helpers: true
           scalar_mapping: []
           schema_mapping:
             - schema: graphql/schema.graphql
-              queries_glob: lib/**.query.graphql
+              # !f pattern matches all gql files except fragments
+              queries_glob: lib/**.[!f]*.graphql
               output: lib/__generated__/api.graphql.dart
           fragments_glob: lib/**.fragment.graphql
           # These just help readability in the generated files since we're using flutter-lint
