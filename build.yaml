@@ -6,7 +6,7 @@ targets:
     builders:
       artemis:
         options:
-          # Generates the wrapper dart classes
+          # Generates the wrapper dart classes like PokemonListQuery()
           generate_helpers: true
           scalar_mapping: []
           schema_mapping:

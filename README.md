@@ -13,6 +13,26 @@ This project aims to replicate a typical client structure using npm packages Apo
 ## Reasons not to use Artemis
 
 - As of now, Artemis doesn't support parsing out graphql queries from `.dart` files, so each query needs to be separated into it's own `.graphql` file. This is suboptimal because it adds a level of separation between the code and the query definition, and can make refactoring more difficult.
+- Unlike the [gql](https://github.com/zino-hofmann/graphql-flutter/blob/main/packages/graphql/lib/src/utilities/helpers.dart#L60) function commonly used for creating the Document obj, Artemis doesn't automatically add `__typename` to allow the cache to function properly. So it will need to be manually added to each object.
+- Fragments on the same object as a parent can't be passed. So if you have have the following you'll have to cast `parent_user` to `child_user` to pass it to a child Widget looking for `child_user`. See [this issue](https://github.com/comigor/artemis/issues/394)
+```graphql
+fragment parent_user on User {
+  __typename
+  id
+  firstName
+  ...child_user
+}
+fragment child_user on User {
+  __typename
+  id
+  lastName
+}
+```
+```dart
+ChildWidget(userFrag: widget.userFrag), // <-- this gives an error
+
+ChildWidget(userFrag: widget.userFrag as ChildUserMixin), // <-- this works
+```
 
 ---
 
